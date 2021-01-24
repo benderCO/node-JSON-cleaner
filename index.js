@@ -1,6 +1,4 @@
 var fs = require('fs');
-const { resolve } = require('path');
-const { fileURLToPath } = require('url');
 
 var myFiles = process.argv.slice(2);
 
