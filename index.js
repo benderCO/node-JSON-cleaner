@@ -9,45 +9,45 @@ if(myFiles.length < 2) {
 }
 
 // // Sync
-var mergedDataSync = {};
+// var mergedDataSync = {};
 
-myFiles.forEach((file) => {
-    mergedDataSync = {...mergedDataSync, ...JSON.parse(fs.readFileSync(file, 'utf8'))};
-});
+// myFiles.forEach((file) => {
+//     mergedDataSync = {...mergedDataSync, ...JSON.parse(fs.readFileSync(file, 'utf8'))};
+// });
 
-console.log('mergedDataSync: ', mergedDataSync);
-fs.writeFile('Final.txt', JSON.stringify(mergedDataSync), (err) => {
-    if (err) {
-        throw err;
-    }
-});
+// console.log('mergedDataSync: ', mergedDataSync);
+// fs.writeFile('Final.txt', JSON.stringify(mergedDataSync), (err) => {
+//     if (err) {
+//         throw err;
+//     }
+// });
 
 
 // Async
-// var fileData = [];
-// var mergedDataAsync = {};
+var fileData = [];
+var mergedDataAsync = {};
 
-// myFiles.forEach((file) => {
-//     fileData.push(
-//         new Promise((resolve) => {
-//             fs.readFile(file, 'utf8', (err, data) => {
-//             if (err) {
-//                 throw err
-//             };
+myFiles.forEach((file) => {
+    fileData.push(
+        new Promise((resolve) => {
+            fs.readFile(file, 'utf8', (err, data) => {
+            if (err) {
+                throw err
+            };
 
-//             resolve(data);
-//         })
-//     }));
-// });
+            resolve(data);
+        })
+    }));
+});
 
-// Promise.all(fileData).then((dataCollection) => {
-//     dataCollection.forEach((data) => {
-//         mergedDataAsync = {...mergedDataAsync, ...JSON.parse(data)}
-//     });
+Promise.all(fileData).then((dataCollection) => {
+    dataCollection.forEach((data) => {
+        mergedDataAsync = {...mergedDataAsync, ...JSON.parse(data)}
+    });
 
-//     fs.writeFile('Final.txt', JSON.stringify(mergedDataAsync), (err) => {
-//         if (err) {
-//             throw err;
-//         }
-//     });
-// });
+    fs.writeFile('Final.txt', JSON.stringify(mergedDataAsync), (err) => {
+        if (err) {
+            throw err;
+        }
+    });
+});
